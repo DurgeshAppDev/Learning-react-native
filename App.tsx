@@ -34,7 +34,7 @@ const App = () => {
        value={password} 
        onChangeText={(text)=> setPassword(text)} 
         />
-       <Button
+       <Button color={"white"} 
        title={passwordVisible ? '🐵' : '🙈'} 
        onPress={
         passwordVisible?
@@ -83,7 +83,7 @@ const style =StyleSheet.create({
     borderWidth:2,
     borderColor:'Black',
     padding:3,
-    backgroundColor:'green',
+    backgroundColor:'orange',
     height:50,
     textAlign:'center',
     textAlignVertical:'center'
