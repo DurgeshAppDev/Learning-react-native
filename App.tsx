@@ -1,19 +1,28 @@
 import React, { Component} from 'react';
 import { View, Text,TextInput , Button} from 'react-native';
-import Comp from'./Component/Comp';
+import Comp from'./Component/Comp.js';
+
 class App extends Component {
-  warn = ()=>{
-  console.warn("button pressed")
+ constructor(){
+  super();
+  this.state={
+    name:""
+  }
+ }
+
+ updateName(Val){
+  this.setState({name:Val})
  }
   render(){
     return(
       <View>
         <Text style={{fontSize:15,color:"Blue",marginTop:30}}> LEARNING CLASS COMPONENTS IN REACT-NATIVE</Text>
-        <TextInput  placeholder='name' />
-        <Button color='black' title='Press' onPress={this.warn}/>
-        
+        <Text style={{fontSize:15}}>{this.state.name}</Text>
+        <TextInput  placeholder='name' onChangeText={(text)=>this.updateName(text)} />
+        <Button color='black' title='Press' />
+        <Comp name={this.state.name} />
        </View>
-    )
+    );
     
   }
 
