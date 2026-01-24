@@ -1,34 +1,30 @@
-import React, { Component} from 'react';
-import { View, Text,TextInput , Button} from 'react-native';
-import Comp from'./Component/Comp.js';
-
-class App extends Component {
- constructor(){
-  super();
-  this.state={
-    name:""
-  }
- }
-
- updateName(Val){
-  this.setState({name:Val})
- }
-  render(){
-    return(
-      <View>
-        <Text style={{fontSize:15,color:"Blue",marginTop:30}}> LEARNING CLASS COMPONENTS IN REACT-NATIVE</Text>
-        <Text style={{fontSize:15}}>{this.state.name}</Text>
-        <TextInput  placeholder='name' onChangeText={(text)=>this.updateName(text)} />
-        <Button color='black' title='Press' />
-        <Comp name={this.state.name} />
-       </View>
-    );
-    
-  }
+import { useEffect, useState } from 'react';
+import { View, Text,Button,StyleSheet} from 'react-native';
 
 
+const App=() =>{
+  const [count,setCount]=useState(0);
+  useEffect(()=>{
+    console.log(`useffect countered ${count}`)
+  },[count])
+  return(
+    <View>
+      <Text style={style.textStyle}>USEEFECT HOOK </Text>
+      <Text style={style.textStyle}>COUNTER {count}</Text>
+      <Button title="press" onPress={()=>setCount(count+1) } color={'orange'} />
+ 
+    </View>
+  )
 }
 
+const style=StyleSheet.create({
+  textStyle:{
+  color:'green',
+  fontSize:20,
+  textAlign:'center',
+  margin:20
+  }
+})
 
 
 
