@@ -17,7 +17,7 @@ const style=StyleSheet.create({
     fontSize:20,
     color:"orange",
     textAlign:"center",
-    marginTop:5
+    marginTop:10
   }
 })
 
