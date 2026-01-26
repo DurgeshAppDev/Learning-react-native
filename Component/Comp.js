@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text , StyleSheet} from "react-native";
 
 
 const Comp=()=> {
+ let time= setInterval(()=>{
+    console.log("hii");
+  },3000)
+  useEffect(()=>{
+   return ()=> clearInterval(time)
+  })
     return (
       <View>
         <Text style={style.styling}>MY NAME IS ALICE</Text>
