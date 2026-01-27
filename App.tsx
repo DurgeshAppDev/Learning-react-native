@@ -8,7 +8,7 @@ const App=() =>{
   const [show,setShow]=useState(false);
   return(
     <View>
-      <Text style={{fontSize:20,color:"orange",textAlign:"center",marginTop:10}}>
+      <Text style={{fontSize:20,color:"orange",textAlign:"center",marginTop:15}}>
         show and hide component
         </Text>
       <Button title='toggle' onPress={()=> setShow(!show)} />
