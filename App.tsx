@@ -34,17 +34,6 @@ const App=()=>{
      {press === 'Greet' && <Greet/>}
      {press === 'search' && <Search/>}
      {press === 'submit' && <Submit/>}
-
-    <View>
-      <Text style={{fontSize:20,color:"orange",textAlign:"center",marginTop:15}}>
-        show and hide component
-        </Text>
-      <Button title='toggle' onPress={()=> setShow(!show)} />
-        {
-          show==true
-          ? <Comp />
-          :null
-        }
     </View>
   )
 }
