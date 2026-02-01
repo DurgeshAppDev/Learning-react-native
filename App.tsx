@@ -2,35 +2,40 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const App = () => {
-  const [radioButton,setRadioButton]=useState(1);
+  const classSection = [
+    {
+      id: 1,
+      sec: 'A',
+    },
+    {
+      id: 2,
+      sec: 'B',
+    },
+    {
+      id: 3,
+      sec: 'C',
+    },
+    {
+      id: 4,
+      sec: 'D',
+    },
+  ];
+  const [radioButton, setRadioButton] = useState(1);
 
   return (
     <View style={style.main}>
-      <TouchableOpacity onPress={()=>setRadioButton(1)}>
-        <View style={style.radioWrap}>
-          <View style={style.radioButton}>
-            {
-              radioButton===1 
-              ? <View style={style.radioButtonBg}></View>
-              :null
-              }
+      {classSection.map((item, index) => (
+        <TouchableOpacity key={index} onPress={() => setRadioButton(item.id)}>
+          <View style={style.radioWrap}>
+            <View style={style.radioButton}>
+              {radioButton === item.id ? (
+                <View style={style.radioButtonBg}></View>
+              ) : null}
+            </View>
+            <Text style={style.radioText}>{item.sec}</Text>
           </View>
-          <Text style={style.radioText}>Male</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={()=> setRadioButton(2)}>
-        <View style={style.radioWrap}>
-          <View style={style.radioButton}>
-            {
-              radioButton===2
-              ? <View style={style.radioButtonBg}></View>
-              :null
-            }
-          </View>
-          <Text style={style.radioText}>Female</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
@@ -39,12 +44,12 @@ const style = StyleSheet.create({
   main: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal:50
+    paddingHorizontal: 50,
   },
   radioWrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical:5
+    marginVertical: 5,
   },
   radioButton: {
     height: 40,
@@ -61,9 +66,9 @@ const style = StyleSheet.create({
     borderRadius: 15,
     margin: 3,
   },
-  radioText:{
-    textAlign: 'center', 
-    fontSize: 20 
-  }
+  radioText: {
+    textAlign: 'center',
+    fontSize: 20,
+  },
 });
 export default App;
