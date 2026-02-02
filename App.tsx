@@ -1,74 +1,42 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Modal } from 'react-native';
 
-const App = () => {
-  const classSection = [
-    {
-      id: 1,
-      sec: 'A',
-    },
-    {
-      id: 2,
-      sec: 'B',
-    },
-    {
-      id: 3,
-      sec: 'C',
-    },
-    {
-      id: 4,
-      sec: 'D',
-    },
-  ];
-  const [radioButton, setRadioButton] = useState(1);
+const App=()=>{
 
-  return (
-    <View style={style.main}>
-      {classSection.map((item, index) => (
-        <TouchableOpacity key={index} onPress={() => setRadioButton(item.id)}>
-          <View style={style.radioWrap}>
-            <View style={style.radioButton}>
-              {radioButton === item.id ? (
-                <View style={style.radioButtonBg}></View>
-              ) : null}
-            </View>
-            <Text style={style.radioText}>{item.sec}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+  return(
+    <View style={Style.main}>
+      <Modal>
+        <View style={Style.modalAlign}>
+        <View style={Style.modalStyle}>
+        <Text style={Style.modalText}>Unknown Credentials</Text>
+        </View>
+        </View>
+      </Modal>
+
     </View>
-  );
+  )
 };
 
-const style = StyleSheet.create({
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 50,
+const Style=StyleSheet.create({
+  main:{
+    flex:1
   },
-  radioWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 5,
+  modalStyle:{
+    height:150,
+    width:300,
+    borderWidth:5,
+
   },
-  radioButton: {
-    height: 40,
-    width: 40,
-    borderWidth: 2,
-    borderColor: 'BLack',
-    borderRadius: 20,
-    margin: 5,
+  modalText:{
+    fontSize:20,
+    padding:5,
+    margin:5
   },
-  radioButtonBg: {
-    height: 30,
-    width: 30,
-    backgroundColor: 'black',
-    borderRadius: 15,
-    margin: 3,
-  },
-  radioText: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-});
+  modalAlign:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+        textAlign:'center'
+  }
+})
 export default App;
