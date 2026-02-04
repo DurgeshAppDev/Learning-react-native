@@ -1,16 +1,23 @@
 import { useState } from 'react';
-import { View, Text,Pressable,StyleSheet } from 'react-native';
+import { View, Text,Pressable,StyleSheet,ActivityIndicator } from 'react-native';
 
 const App=()=>{
+   const [show,setShow]=useState(false)
+   const displayIndicator=()=>{
+    setShow(true);
 
+    setTimeout(() => {
+      setShow(false);
+    },5000);
+   }
   return(
 <View style={style.main}>
-  <Pressable onPressOut={()=>console.log("onpress called")
-  
-   
-  }>
+  <ActivityIndicator color={'black'} size={50} animating={show}>
+
+  </ActivityIndicator>
+  <Pressable onPress={()=>displayIndicator()}  >
     <View >
-    <Text style={style.PressableButton}>Pressable test</Text>
+    <Text style={style.PressableButton}>Press</Text>
     </View>
   </Pressable>
 </View>
