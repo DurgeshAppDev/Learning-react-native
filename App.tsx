@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text,Pressable,StyleSheet,ActivityIndicator } from 'react-native';
+import { View, Text,Pressable,StyleSheet,ActivityIndicator,StatusBar} from 'react-native';
 
 const App=()=>{
    const [show,setShow]=useState(false)
@@ -12,6 +12,9 @@ const App=()=>{
    }
   return(
 <View style={style.main}>
+  <StatusBar backgroundColor={'red'}
+  hidden={show}
+  />
   <ActivityIndicator color={'black'} size={50} animating={show}>
 
   </ActivityIndicator>
