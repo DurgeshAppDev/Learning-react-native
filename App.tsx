@@ -8,7 +8,7 @@ const App=()=>{
 
     setTimeout(() => {
       setShow(false);
-    },5000);
+    },300);
    }
   return(
 <View style={style.main}>
@@ -32,7 +32,8 @@ const style=StyleSheet.create({
   main:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor:'yellow'
   },
   PressableButton:{
    backgroundColor:'green',
