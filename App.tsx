@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text,Pressable,StyleSheet,ActivityIndicator,StatusBar} from 'react-native';
+import { View, Text,Pressable,StyleSheet,ActivityIndicator,StatusBar,Platform} from 'react-native';
 
 const App=()=>{
    const [show,setShow]=useState(false)
@@ -12,16 +12,26 @@ const App=()=>{
    }
   return(
 <View style={style.main}>
-  <StatusBar backgroundColor={'red'}
+  <StatusBar backgroundColor={'green'}
   hidden={show}
   />
   <ActivityIndicator color={'black'} size={50} animating={show}>
 
   </ActivityIndicator>
   <Pressable onPress={()=>displayIndicator()}  >
-    <View >
-    <Text style={style.PressableButton}>Press</Text>
+    <View>
+      <Text>platform: {Platform.OS}</Text>
+    {
+      Platform.OS==='android'?
+     <View >
+    <Text style={style.PressableButtonAndroid}>Press</Text>
+    </View>:
+    <View>
+     <Text style={style.PressableButtonIos}>Press</Text>
     </View>
+    }
+    </View>
+    
   </Pressable>
 </View>
 
@@ -32,10 +42,9 @@ const style=StyleSheet.create({
   main:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'yellow'
+    alignItems:'center'
   },
-  PressableButton:{
+  PressableButtonAndroid:{
    backgroundColor:'green',
    color:'white',
    height:"auto",
@@ -48,6 +57,21 @@ const style=StyleSheet.create({
    elevation:20,
    borderWidth:2,
    borderColor:'green',
+   borderRadius:10
+  },
+  PressableButtonIos:{
+    backgroundColor:'red',
+   color:'white',
+   height:"auto",
+   width:200,
+   textAlign:'center',
+   justifyContent:'center',
+   margin:10,
+   padding:10,
+   shadowColor:'black',
+   elevation:25,
+   borderWidth:3,
+   borderColor:'red',
    borderRadius:10
   }
 })
