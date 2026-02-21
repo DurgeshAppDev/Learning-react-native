@@ -1,44 +1,39 @@
 import { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
 const App = () => {
-  const [showModal, setShowModal] = useState(false);
   return (
-    <View style={style.mainStyle}>
-     {showModal==true?
-      <View style={style.mainModal}>
-        <View style={style.innerModal}>
-          <Text>ALERT TEXT</Text>
-          <Button title="Close" onPress={()=>setShowModal(false)}/>
-        </View>
-      </View>:null
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-     }
-      <Button title="Press" onPress={()=>setShowModal(true)} />
+const Login = (props) => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 30, textAlign: 'center' }}>
+        Welcome to login page login from there
+      </Text>
+      <Button title="home" onPress={() => props.navigation.navigate(Home)} />
     </View>
   );
 };
 
-const style = StyleSheet.create({
-  mainStyle: {
-    flex: 1,
-    justifyContent: 'flex-end'
-  },
-  mainModal: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(50,50,50,.5)'
-  },
-  innerModal: {
-    backgroundColor:'white',
-    height:200,
-    width:250,
-    justifyContent:'center',
-    alignItems:'center',
-    padding:10,
-    borderRadius:5
-  },
-});
+const Home = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 30, textAlign: 'center' }}>
+        Hello welcome to Home Screen
+      </Text>
+    </View>
+  );
+};
 
 export default App;
