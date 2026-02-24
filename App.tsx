@@ -2,9 +2,13 @@ import { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { Home } from './component/Home';
+import { Login } from './component/Login';
 const Stack = createNativeStackNavigator();
 const App = () => {
+  const greet = () => {
+    console.log('navigation button pressed');
+  };
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -22,7 +26,8 @@ const App = () => {
           name="Login"
           component={Login}
           options={{
-            headerTitle: 'USER LOGIN',
+            headerLeft: () => <Button title="left" onPress={greet} />,
+            headerRight: () => <Button title="right" onPress={greet} />,
             headerTitleStyle: {
               fontSize: 15,
             },
@@ -34,40 +39,8 @@ const App = () => {
           }}
         />
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name='AboutUs' component={AboutUs}/>
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
-
-const Login = props => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 30, textAlign: 'center' }}>
-        Welcome to login page login from there
-      </Text>
-      <Button title="home" onPress={() => props.navigation.navigate(Home)} />
-       <Button title='AboutUs' onPress={()=> props.navigation.navigate(AboutUs)}/> 
-    </View>
-  );
-};
-
-const Home = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 30, textAlign: 'center' }}>
-        Hello welcome to Home Screen
-      </Text>
-    </View>
-  );
-};
-const AboutUs = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 30, textAlign: 'center',margin:10 }}>
-        Hello welcome to AboutUs  Screen
-      </Text>
-    </View>
   );
 };
 
