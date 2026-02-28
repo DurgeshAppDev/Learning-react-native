@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 
 const App = () => {
   const [data, setData] = useState<any[]>([]);
   const getAPIData = async () => {
     const url = 'https://jsonplaceholder.typicode.com/posts';
     let response = await fetch(url);
-   let result = await response.json();
+    let result = await response.json();
     setData(result);
   };
   useEffect(() => {
@@ -15,8 +15,10 @@ const App = () => {
   return (
     <ScrollView>
       <Text style={{ fontSize: 20 }}>Fetching Api Data</Text>
-      {data.length
-        ? data.map(items => (
+      {data.length ? (
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
             <View
               style={{
                 padding: 5,
@@ -25,13 +27,14 @@ const App = () => {
               }}
             >
               <Text style={{ fontSize: 15, backgroundColor: '#8f7575' }}>
-                {items.id}
+                {item.id}
               </Text>
-              <Text style={{ fontSize: 15 }}>{items.title}</Text>
-              <Text style={{ fontSize: 15 }}>{items.body}</Text>
+              <Text style={{ fontSize: 15 }}>{item.title}</Text>
+              <Text style={{ fontSize: 15 }}>{item.body}</Text>
             </View>
-          ))
-        : null}
+          )}
+        />
+      ) : null}
     </ScrollView>
   );
 };
