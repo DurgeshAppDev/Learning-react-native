@@ -14,7 +14,7 @@ const App = () => {
   }, []);
   return (
     <ScrollView>
-      <Text style={{ fontSize: 20 }}>Fetching Api Data</Text>
+      <Text style={{ fontSize: 22 }}>Fetching Api Data</Text>
       {data.length ? (
         <FlatList
           data={data}
