@@ -1,98 +1,105 @@
-import { useState } from 'react';
-import { View,Text, TextInput,StyleSheet,Button } from 'react-native';
-
+import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Button ,Modal} from 'react-native';
 
 const App = () => {
-  const [name ,setName]=useState('');
-  const [age ,setAge]=useState(0);
-  const [email ,setemail]=useState('');
- 
-const [nameError,setNameError]=useState(false);
-const [ageError,setAgeError]=useState(false);
-const [emailError,setEmailError]=useState(false);
+  const [data, setData] = useState<any>([]);
+  const [modalVisible,setModalVisible]=useState(false)
 
+  const apiData = async () => {
+    const url = 'http://10.0.2.2:3000/users';
+    let result = await fetch(url);
+    result = await result.json();
+    if (result) {
+      setData(result);
+    }
+  };
+  const deleteUser = async (id)=>{
+    const url='http://10.0.2.2:3000/users';
+    let result= await fetch(`${url}/${id}`,{
+      method:'delete'
+    })
 
-  
-
-
-  const addData= async ()=>{
-
-    {
-  !name ? setNameError(true): setNameError(false);
-  !age ? setAgeError(true): setAgeError(false);
-  !email ? setEmailError(true): setEmailError(false);
-}
-
-if(!name || !age || !email ){
-  return false;
-}
-
-    const url="http://10.0.2.2:3000/users";
-
-    const response = await fetch(url);
-      const users = await response.json();
-  const newId = users.length + 1;
-
-    const result= await fetch(url,
-    {method :'POST',
-    headers:{'content-type':"application/json"},
-    body:JSON.stringify({newId,name,age,email})}
-    );
+    result= await result.json();
+    if (result){
+      console.log('user deleted');
+      apiData();
+      setModalVisible(true);
+    }
   }
+
+  useEffect(() => {
+    apiData();
+  }, []);
+
   return (
-    <View  style={Styles.main}>
-      <TextInput 
-      style={Styles.textFeild}
-       value={name} 
-       placeholder="Enter name" 
-        onChangeText={(text)=>setName(text)} />
-        {  nameError ?
-          <Text style={Styles.ErrorText}> Please Enter valid Name</Text>:
-          null
-        }
+    <View style={styles.container}>
+      <View style={styles.apiDataStyle}>
+        <View style={{ flex: 1 }}>
+          <Text>NAME</Text>
+        </View>
+        <View style={{ flex: 1.1 }}>
+          <Text>AGE</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>OPERATION</Text>
+        </View>
+      </View>
+      {data.length
+        ? data.map((items: any) => (
+            <View key={items.id} style={styles.apiDataStyle}>
+              <View style={{ flex: 1.5 }}>
+                <Text>{items.name}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>{items.age}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button title="update" onPress={() => {}} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button title="delete" onPress={() => {deleteUser(items.id)}} />
+              </View>
+            </View>
+          ))
+        : null}
 
-      <TextInput 
-      style={Styles.textFeild}
-       value={age.toString()} 
-       placeholder="Enter age" 
-        onChangeText={(text)=>setAge(text)} />
-        {  ageError ?
-          <Text style={Styles.ErrorText}> Please Enter Valid Age</Text>:
-          null
-        }
-      <TextInput 
-      style={Styles.textFeild}
-       value={email} 
-       placeholder="Enter email" 
-        onChangeText={(text)=>setemail(text)} />
-
-        {  emailError ?
-          <Text style={Styles.ErrorText}> Please Enter  Valid Email</Text>:
-          null
-        }
-        
-        <Button  
-        title='Submit data ' 
-        onPress={()=> addData()
-        }/>
+        <Modal visible={modalVisible} transparent={true} animationType='slide'>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalBox}>
+              <Text>User Deleted Successfully</Text>
+              <Button title='ok' onPress={()=>setModalVisible(false)}/>
+            </View>
+          </View>
+        </Modal>
     </View>
   );
 };
 
-const Styles=StyleSheet.create({
-  main:{
-  marginTop:20
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
-  textFeild:{
-    borderWidth:1,
-    borderColor:'black',
-    margin:5
+  apiDataStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    backgroundColor: 'green',
+    margin:3,
+    borderRadius:5
   },
-  ErrorText:{
-    color:"red",
-    padding:2,
-    textAlign:'center'
+  modalContainer:{
+ flex:1,
+ justifyContent:'center',
+ alignItems:'center',
+ backgroundColor:'rgba(0,0,0,0.5)'
+  },
+  modalBox:{
+   backgroundColor:'green',
+   alignItems:'center',
+   padding:20,
+   borderRadius:5,
+   margin:5
   }
-})
+});
 
 export default App;
