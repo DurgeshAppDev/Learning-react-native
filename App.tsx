@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Modal,ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Modal,
+  ScrollView,
+  TextInput,
+} from 'react-native';
+
 
 const App = () => {
   const [data, setData] = useState<any>([]);
@@ -21,26 +30,22 @@ const App = () => {
       method: 'delete',
     });
 
-   
-      console.log('user deleted');
-      setModalVisible(true);
-setTimeout(() => {
-  apiData();
-}, 300);
-  
-    
+    console.log('user deleted');
+    setModalVisible(true);
+    setTimeout(() => {
+      apiData();
+    }, 300);
   };
 
   useEffect(() => {
     apiData();
   }, []);
 
-  const updateButton = (data:any) => {
+  const updateButton = (data: any) => {
     setUpdateModal(true);
     setUpdateData(data);
   };
   return (
-    
     <View style={styles.container}>
       <View style={styles.apiDataStyle}>
         <View style={{ flex: 1 }}>
@@ -54,70 +59,106 @@ setTimeout(() => {
         </View>
       </View>
       <ScrollView>
-      {data.length
-        ? data.map((items: any) => (
-            <View key={items.id} style={styles.apiDataStyle}>
-              <View style={{ flex: 1.5 }}>
-                <Text>{items.name}</Text>
+        {data.length
+          ? data.map((items: any) => (
+              <View key={items.id} style={styles.apiDataStyle}>
+                <View style={{ flex: 1.5 }}>
+                  <Text>{items.name}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text>{items.age}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Button
+                    title="update"
+                    onPress={() => {
+                      updateButton(items);
+                    }}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Button
+                    title="delete"
+                    onPress={() => {
+                      deleteUser(items.id);
+                    }}
+                  />
+                </View>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text>{items.age}</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Button
-                  title="update"
-                  onPress={() => {
-                    updateButton(items);
-                  }}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Button
-                  title="delete"
-                  onPress={() => {
-                    deleteUser(items.id);
-                  }}
-                />
-              </View>
-            
+            ))
+          : null}
+
+        <Modal visible={modalVisible} transparent={true} animationType="slide">
+          <View style={styles.modalContainer}>
+            <View style={styles.modalBox}>
+              <Text>User Deleted Successfully</Text>
+              <Button title="ok" onPress={() => setModalVisible(false)} />
             </View>
-          ))
-        : null}
-
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalBox}>
-            <Text>User Deleted Successfully</Text>
-            <Button title="ok" onPress={() => setModalVisible(false)} />
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Modal visible={updateModal} transparent={true} animationType="slide">
-        <UpdateModal  setUpdateModal={setUpdateModal} updateData={updateData}/>
-      </Modal>
-        </ScrollView>
+        <Modal visible={updateModal} transparent={true} animationType="slide">
+          <UpdateModal
+            setUpdateModal={setUpdateModal}
+            updateData={updateData}
+            apiData={apiData}
+          />
+        </Modal>
+      </ScrollView>
     </View>
   );
 };
 
-const UpdateModal = ({setUpdateModal,updateData}:any) => {
-  console.log(updateData)
+const UpdateModal = ({ setUpdateModal, updateData, apiData }: any) => {
+  console.log(updateData);
+  const [name, setName] = useState(undefined);
+  const [age, setAge] = useState(undefined);
+
+  useEffect(() => {
+    if (updateData) {
+      setName(updateData.name);
+      setAge(updateData.age.toString());
+    }
+  }, [updateData]);
+
+  const userUpdate = async () => {
+    const url = 'http://10.0.2.2:3000/users';
+    const id = updateData.id;
+    let result = await fetch(`${url}/${id}`, {
+      method: 'Put',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ name, age }),
+    });
+
+    result = await result.json();
+    if (result) {
+      apiData();
+      setUpdateModal(false);
+    }
+  };
   return (
     <View style={styles.modalContainer}>
       <View style={styles.modalBox}>
-        <Text> update modal</Text>
-        <Button title='close' onPress={()=> setUpdateModal(false)}/>
+        <TextInput
+          style={styles.inputFeild}
+          value={name}
+          onChangeText={(text: any) => setName(text)}
+        />
+        <TextInput
+          style={styles.inputFeild}
+          value={age}
+          onChangeText={(text: any) => setAge(text)}
+        />
+        <View style={{ marginBottom: 6 }}>
+          <Button title="save" onPress={userUpdate} />
+        </View>
+        <Button title="close" onPress={() => setUpdateModal(false)} />
       </View>
     </View>
   );
 };
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -143,6 +184,12 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 5,
     margin: 5,
+  },
+  inputFeild: {
+    borderWidth: 2,
+    width: 300,
+    backgroundColor: '#fff',
+    marginBottom: 5,
   },
 });
 
