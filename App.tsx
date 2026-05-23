@@ -1,46 +1,15 @@
-import { useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { } from 'react';
+import { View, Text } from 'react-native';
+import Product from './component/product.js';
+import Header from "./component/header.js";
 
 const App = () => {
-  const [data, setdata] = useState<any>([]);
 
-  const searchAPI = async (text: any) => {
-    const url = `http://10.0.2.2:3000/users?q=${text}`;
-    let result = await fetch(url);
-    result = await result.json();
-    console.log(result);
-    if (result) {
-      setdata(result);
-    }
-  };
-  return (
+  return(
     <View>
-      <Text style={{ textAlign: 'center', fontSize: 20 }}> Search here </Text>
-      <TextInput
-        style={{ fontSize: 20, borderWidth: 1, borderColor: '#000' }}
-        placeholder="search"
-        onChangeText={text => searchAPI(text)}
-      />
-      {data.length ? (
-        data.map((item: any) => {
-          return (
-            <View>
-              <Text style={{ fontSize: 20, color: '#d66868' }}>
-                Name: {item.name}
-              </Text>
-              <Text style={{ fontSize: 20, color: '#d66868' }}>
-                Age: {item.age}
-              </Text>
-            </View>
-          );
-        })
-      ) : (
-        <View>
-          <Text style={{ textAlign: 'center', marginTop: 10 }}>
-            No results found
-          </Text>
-        </View>
-      )}
+      <Text>hello world</Text>
+      <Product/>
+      <Header />
     </View>
   );
 };
